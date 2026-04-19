@@ -25,7 +25,7 @@ const levels = [
   { title: 'Уровень 7', start: [3, 1], targets: [{ row: 3, col: 2, type: 'sun' }, { row: 3, col: 3, type: 'patch' }, { row: 3, col: 4, type: 'air' }, { row: 3, col: 5, type: 'sun' }, { row: 3, col: 6, type: 'patch' }, { row: 3, col: 7, type: 'air' }], minCommands: 7 },
   { title: 'Уровень 8', start: [6, 0], targets: [{ row: 4, col: 3, type: 'sun' }, { row: 4, col: 4, type: 'patch' }, { row: 4, col: 5, type: 'air' }, { row: 5, col: 1, type: 'sun' }, { row: 5, col: 2, type: 'patch' }, { row: 5, col: 3, type: 'air' }], minCommands: 15 },
   { title: 'Уровень 9', start: [6, 3], targets: [{ row: 0, col: 3, type: 'patch' }, { row: 2, col: 3, type: 'patch' }, { row: 4, col: 3, type: 'patch' }], minCommands: 5 },
-  { title: 'Уровень 10', start: [1, 1], targets: [{ row: 1, col: 5, type: 'air' }, { row: 5, col: 1, type: 'air' }, { row: 5, col: 5, type: 'air' }], minCommands: 11 },
+  { title: 'Уровень 10', start: [1, 1], targets: [{ row: 1, col: 5, type: 'air' }, { row: 5, col: 1, type: 'air' }, { row: 5, col: 5, type: 'air' }], minCommands: 5 },
 ];
 
 const board = document.getElementById('board');
