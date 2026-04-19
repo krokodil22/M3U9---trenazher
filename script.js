@@ -17,7 +17,7 @@ const objectAssets = {
 
 const levels = [
   { title: 'Уровень 1', start: [2, 1], targets: [{ row: 5, col: 5, type: 'sun' }], minCommands: 6 },
-  { title: 'Уровень 2', start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'patch' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'patch' }], minCommands: 3 },
+  { title: 'Уровень 2', start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'patch' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'patch' }], minCommands: 4 },
   { title: 'Уровень 3', start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'air' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'air' }, { row: 6, col: 2, type: 'patch' }, { row: 7, col: 2, type: 'air' }], minCommands: 5 },
   { title: 'Уровень 4', start: [1, 2], targets: [{ row: 1, col: 3, type: 'patch' }, { row: 1, col: 4, type: 'patch' }, { row: 2, col: 5, type: 'air' }, { row: 3, col: 5, type: 'air' }, { row: 4, col: 5, type: 'air' }], minCommands: 8 },
   { title: 'Уровень 5', start: [6, 2], targets: [{ row: 2, col: 5, type: 'sun' }, { row: 3, col: 5, type: 'sun' }, { row: 4, col: 5, type: 'sun' }, { row: 5, col: 5, type: 'sun' }, { row: 6, col: 5, type: 'patch' }], minCommands: 7 },
@@ -149,7 +149,7 @@ function renderBoard() {
       const ghostType = targetMap.get(key);
       if (ghostType) {
         const ghost = document.createElement('div');
-        ghost.className = 'object ghost';
+        ghost.className = `object ghost ${ghostType}`;
         ghost.style.backgroundImage = `url('./${objectAssets[ghostType]}')`;
         cell.appendChild(ghost);
       }
