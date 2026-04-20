@@ -15,17 +15,19 @@ const objectAssets = {
   air: 'air.svg',
 };
 
+const PROGRESS_STORAGE_KEY = 'mazeProgressV1';
+
 const levels = [
-  { title: 'Уровень 1', start: [2, 1], targets: [{ row: 5, col: 5, type: 'sun' }], minCommands: 6 },
-  { title: 'Уровень 2', start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'patch' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'patch' }], minCommands: 4 },
-  { title: 'Уровень 3', start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'air' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'air' }, { row: 6, col: 2, type: 'patch' }, { row: 7, col: 2, type: 'air' }], minCommands: 5 },
-  { title: 'Уровень 4', start: [1, 2], targets: [{ row: 1, col: 3, type: 'patch' }, { row: 1, col: 4, type: 'patch' }, { row: 2, col: 5, type: 'air' }, { row: 3, col: 5, type: 'air' }, { row: 4, col: 5, type: 'air' }], minCommands: 8 },
-  { title: 'Уровень 5', start: [6, 2], targets: [{ row: 2, col: 5, type: 'sun' }, { row: 3, col: 5, type: 'sun' }, { row: 4, col: 5, type: 'sun' }, { row: 5, col: 5, type: 'sun' }, { row: 6, col: 5, type: 'patch' }], minCommands: 7 },
-  { title: 'Уровень 6', start: [3, 1], targets: [{ row: 3, col: 2, type: 'sun' }, { row: 3, col: 3, type: 'patch' }, { row: 3, col: 4, type: 'air' }], minCommands: 6 },
-  { title: 'Уровень 7', start: [3, 1], targets: [{ row: 3, col: 2, type: 'sun' }, { row: 3, col: 3, type: 'patch' }, { row: 3, col: 4, type: 'air' }, { row: 3, col: 5, type: 'sun' }, { row: 3, col: 6, type: 'patch' }, { row: 3, col: 7, type: 'air' }], minCommands: 7 },
-  { title: 'Уровень 8', start: [6, 0], targets: [{ row: 4, col: 3, type: 'sun' }, { row: 4, col: 4, type: 'patch' }, { row: 4, col: 5, type: 'air' }, { row: 5, col: 1, type: 'sun' }, { row: 5, col: 2, type: 'patch' }, { row: 5, col: 3, type: 'air' }], minCommands: 15 },
-  { title: 'Уровень 9', start: [6, 3], targets: [{ row: 0, col: 3, type: 'patch' }, { row: 2, col: 3, type: 'patch' }, { row: 4, col: 3, type: 'patch' }], minCommands: 5 },
-  { title: 'Уровень 10', start: [1, 1], targets: [{ row: 1, col: 5, type: 'air' }, { row: 5, col: 1, type: 'air' }, { row: 5, col: 5, type: 'air' }], minCommands: 5 },
+  { start: [2, 1], targets: [{ row: 5, col: 5, type: 'sun' }], minCommands: 6 },
+  { start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'patch' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'patch' }], minCommands: 4 },
+  { start: [1, 2], targets: [{ row: 1, col: 3, type: 'patch' }, { row: 1, col: 4, type: 'patch' }, { row: 2, col: 4, type: 'air' }, { row: 3, col: 4, type: 'air' }, { row: 4, col: 4, type: 'air' }], minCommands: 8 },
+  { start: [6, 2], targets: [{ row: 2, col: 5, type: 'sun' }, { row: 3, col: 5, type: 'sun' }, { row: 4, col: 5, type: 'sun' }, { row: 5, col: 5, type: 'sun' }, { row: 6, col: 5, type: 'patch' }], minCommands: 7 },
+  { start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'air' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'air' }, { row: 6, col: 2, type: 'patch' }, { row: 7, col: 2, type: 'air' }], minCommands: 6 },
+  { start: [3, 1], targets: [{ row: 3, col: 2, type: 'sun' }, { row: 3, col: 3, type: 'patch' }, { row: 3, col: 4, type: 'air' }], minCommands: 6 },
+  { start: [3, 1], targets: [{ row: 3, col: 2, type: 'sun' }, { row: 3, col: 3, type: 'patch' }, { row: 3, col: 4, type: 'air' }, { row: 3, col: 5, type: 'sun' }, { row: 3, col: 6, type: 'patch' }, { row: 3, col: 7, type: 'air' }], minCommands: 7 },
+  { start: [6, 1], targets: [{ row: 4, col: 3, type: 'sun' }, { row: 4, col: 4, type: 'patch' }, { row: 4, col: 5, type: 'air' }, { row: 5, col: 1, type: 'sun' }, { row: 5, col: 2, type: 'patch' }, { row: 5, col: 3, type: 'air' }], minCommands: 9 },
+  { start: [6, 3], targets: [{ row: 0, col: 3, type: 'patch' }, { row: 2, col: 3, type: 'patch' }, { row: 4, col: 3, type: 'patch' }], minCommands: 5 },
+  { start: [1, 1], targets: [{ row: 1, col: 5, type: 'air' }, { row: 5, col: 1, type: 'air' }, { row: 5, col: 5, type: 'air' }], minCommands: 5 },
 ];
 
 const board = document.getElementById('board');
@@ -48,6 +50,7 @@ let currentPosition = [0, 0];
 let currentDirection = 'right';
 let isProgramRunning = false;
 let placedObjects = new Map();
+let completedLevels = Array(levels.length).fill(false);
 
 const defineBlocksWithJsonArray = Blockly.common?.defineBlocksWithJsonArray ?? Blockly.defineBlocksWithJsonArray;
 
@@ -121,10 +124,57 @@ function toKey(row, col) {
   return `${row},${col}`;
 }
 
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed?.completedLevels)) return;
+    completedLevels = levels.map((_, idx) => Boolean(parsed.completedLevels[idx]));
+  } catch {
+    completedLevels = Array(levels.length).fill(false);
+  }
+}
+
+function saveProgress() {
+  localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ completedLevels }));
+}
+
+function isLevelUnlocked(index) {
+  if (index === 0) return true;
+  for (let idx = 0; idx < index; idx += 1) {
+    if (!completedLevels[idx]) return false;
+  }
+  return true;
+}
+
 function renderLevelOptions() {
-  levelSelect.innerHTML = levels.map((level, idx) => (
-    `<option value="${idx}" ${idx === currentLevelIndex ? 'selected' : ''}>${level.title}</option>`
-  )).join('');
+  levelSelect.innerHTML = levels.map((_, idx) => {
+    const isLocked = !isLevelUnlocked(idx);
+    const completeIcon = completedLevels[idx] ? '✅ ' : '';
+    const lockIcon = isLocked ? '🔒 ' : '';
+    return (
+      `<option value="${idx}" ${idx === currentLevelIndex ? 'selected' : ''} ${isLocked ? 'disabled' : ''}>${lockIcon}${completeIcon}Уровень ${idx + 1}</option>`
+    );
+  }).join('');
+}
+
+function markLevelCompleted(levelIndex) {
+  if (completedLevels[levelIndex]) return;
+  completedLevels[levelIndex] = true;
+  saveProgress();
+}
+
+function getHighestUnlockedLevel() {
+  for (let idx = 1; idx < levels.length; idx += 1) {
+    if (!isLevelUnlocked(idx)) return idx - 1;
+  }
+  return levels.length - 1;
+}
+
+function syncCurrentLevelWithProgress() {
+  const highestUnlocked = getHighestUnlockedLevel();
+  if (currentLevelIndex > highestUnlocked) currentLevelIndex = highestUnlocked;
 }
 
 function renderBoard() {
@@ -173,7 +223,7 @@ function renderBoard() {
     }
   }
 
-  levelTitle.textContent = level.title;
+  levelTitle.textContent = `Уровень ${currentLevelIndex + 1}`;
   levelProgress.textContent = `${currentLevelIndex + 1} / ${levels.length}`;
   levelHint.textContent = 'Цель: поставь все объекты на отмеченные клетки.';
   levelRule.textContent = `Минимальная программа: ${level.minCommands} команд.`;
@@ -190,6 +240,10 @@ function resetLevelState() {
 
 function setLevel(index) {
   if (index < 0 || index >= levels.length) return;
+  if (!isLevelUnlocked(index)) {
+    renderLevelOptions();
+    return;
+  }
   currentLevelIndex = index;
   hideLevelCompleteModal();
   workspace.updateToolbox(getToolboxForLevel(index));
@@ -318,7 +372,9 @@ async function runProgram() {
       return;
     }
 
-    const hasNext = currentLevelIndex < levels.length - 1;
+    markLevelCompleted(currentLevelIndex);
+    renderLevelOptions();
+    const hasNext = currentLevelIndex < levels.length - 1 && isLevelUnlocked(currentLevelIndex + 1);
     showLevelCompleteModal('Все объекты расставлены правильно!', hasNext, 'Победа!');
   } finally {
     isProgramRunning = false;
@@ -338,5 +394,7 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) runProgram();
 });
 
+loadProgress();
+syncCurrentLevelWithProgress();
 initializeBlockly();
-setLevel(0);
+setLevel(currentLevelIndex);
