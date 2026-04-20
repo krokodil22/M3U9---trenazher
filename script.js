@@ -238,7 +238,7 @@ function renderBoard() {
   levelTitle.textContent = getLevelName(currentLevelIndex);
   levelProgress.textContent = `${currentLevelIndex + 1} / ${levels.length}`;
   levelHint.textContent = 'Цель: поставь все объекты на отмеченные клетки.';
-  levelRule.textContent = `Минимальная программа: ${level.minCommands} команд.`;
+  levelRule.textContent = `Составь программу из ${level.minCommands} команд.`;
   renderLevelOptions();
 }
 
