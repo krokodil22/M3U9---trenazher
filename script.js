@@ -100,8 +100,8 @@ function getToolboxForLevel(levelIndex) {
   ];
 
   if (levelIndex >= 0) contents.push({ kind: 'block', type: 'maze_place_sun' });
-  if (levelIndex >= 1) contents.push({ kind: 'block', type: 'maze_place_patch' });
-  if (levelIndex >= 2) contents.push({ kind: 'block', type: 'maze_place_air' });
+  if (levelIndex >= 2) contents.push({ kind: 'block', type: 'maze_place_patch' });
+  if (levelIndex >= 3) contents.push({ kind: 'block', type: 'maze_place_air' });
 
   return { kind: 'flyoutToolbox', contents };
 }
