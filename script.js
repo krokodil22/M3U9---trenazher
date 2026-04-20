@@ -16,8 +16,10 @@ const objectAssets = {
 };
 
 const PROGRESS_STORAGE_KEY = 'mazeProgressV1';
+const DEBUG_UNLOCK_KEY = 'mazeDebugUnlockAll';
 
 const levels = [
+  { start: [3, 1], targets: [{ row: 3, col: 5, type: 'sun' }], minCommands: 5 },
   { start: [2, 1], targets: [{ row: 5, col: 5, type: 'sun' }], minCommands: 6 },
   { start: [1, 2], targets: [{ row: 2, col: 2, type: 'patch' }, { row: 3, col: 2, type: 'patch' }, { row: 4, col: 2, type: 'patch' }, { row: 5, col: 2, type: 'patch' }], minCommands: 4 },
   { start: [1, 2], targets: [{ row: 1, col: 3, type: 'patch' }, { row: 1, col: 4, type: 'patch' }, { row: 2, col: 4, type: 'air' }, { row: 3, col: 4, type: 'air' }, { row: 4, col: 4, type: 'air' }], minCommands: 8 },
@@ -28,7 +30,16 @@ const levels = [
   { start: [6, 1], targets: [{ row: 4, col: 3, type: 'sun' }, { row: 4, col: 4, type: 'patch' }, { row: 4, col: 5, type: 'air' }, { row: 5, col: 1, type: 'sun' }, { row: 5, col: 2, type: 'patch' }, { row: 5, col: 3, type: 'air' }], minCommands: 9 },
   { start: [6, 3], targets: [{ row: 0, col: 3, type: 'patch' }, { row: 2, col: 3, type: 'patch' }, { row: 4, col: 3, type: 'patch' }], minCommands: 5 },
   { start: [1, 1], targets: [{ row: 1, col: 5, type: 'air' }, { row: 5, col: 1, type: 'air' }, { row: 5, col: 5, type: 'air' }], minCommands: 5 },
+  { start: [2, 1], targets: [{ row: 2, col: 2, type: 'air' }, { row: 2, col: 3, type: 'sun' }, { row: 3, col: 2, type: 'air' }, { row: 3, col: 3, type: 'sun' }, { row: 4, col: 2, type: 'air' }, { row: 4, col: 3, type: 'sun' }, { row: 5, col: 2, type: 'air' }, { row: 5, col: 3, type: 'sun' }], minCommands: 10 },
+  { start: [2, 1], targets: [{ row: 2, col: 2, type: 'air' }, { row: 2, col: 3, type: 'sun' }, { row: 2, col: 4, type: 'air' }, { row: 2, col: 5, type: 'sun' }, { row: 3, col: 2, type: 'air' }, { row: 3, col: 3, type: 'sun' }, { row: 3, col: 4, type: 'air' }, { row: 3, col: 5, type: 'sun' }, { row: 4, col: 2, type: 'air' }, { row: 4, col: 3, type: 'sun' }, { row: 4, col: 4, type: 'air' }, { row: 4, col: 5, type: 'sun' }, { row: 5, col: 2, type: 'air' }, { row: 5, col: 3, type: 'sun' }, { row: 5, col: 4, type: 'air' }, { row: 5, col: 5, type: 'sun' }], minCommands: 14 },
+  { start: [1, 1], targets: [{ row: 1, col: 2, type: 'sun' }, { row: 1, col: 3, type: 'air' }, { row: 1, col: 4, type: 'patch' }, { row: 2, col: 1, type: 'patch' }, { row: 2, col: 5, type: 'sun' }, { row: 3, col: 1, type: 'air' }, { row: 3, col: 5, type: 'air' }, { row: 4, col: 1, type: 'sun' }, { row: 4, col: 5, type: 'patch' }, { row: 5, col: 2, type: 'patch' }, { row: 5, col: 3, type: 'air' }, { row: 5, col: 4, type: 'sun' }], minCommands: 14 },
+  { start: [1, 1], targets: [{ row: 1, col: 2, type: 'sun' }, { row: 1, col: 3, type: 'air' }, { row: 1, col: 4, type: 'patch' }, { row: 2, col: 2, type: 'patch' }, { row: 2, col: 3, type: 'air' }, { row: 2, col: 4, type: 'sun' }, { row: 3, col: 2, type: 'sun' }, { row: 3, col: 3, type: 'air' }, { row: 3, col: 4, type: 'patch' }, { row: 4, col: 2, type: 'patch' }, { row: 4, col: 3, type: 'air' }, { row: 4, col: 4, type: 'sun' }], minCommands: 12 },
 ];
+
+function getLevelName(levelIndex) {
+  if (levelIndex < 9) return `Уровень ${levelIndex + 1}`;
+  return `Доп.задание ${levelIndex - 8}`;
+}
 
 const board = document.getElementById('board');
 const levelTitle = document.getElementById('level-title');
@@ -141,6 +152,7 @@ function saveProgress() {
 }
 
 function isLevelUnlocked(index) {
+  if (localStorage.getItem(DEBUG_UNLOCK_KEY) === '1') return true;
   if (index === 0) return true;
   for (let idx = 0; idx < index; idx += 1) {
     if (!completedLevels[idx]) return false;
@@ -154,7 +166,7 @@ function renderLevelOptions() {
     const completeIcon = completedLevels[idx] ? '✅ ' : '';
     const lockIcon = isLocked ? '🔒 ' : '';
     return (
-      `<option value="${idx}" ${idx === currentLevelIndex ? 'selected' : ''} ${isLocked ? 'disabled' : ''}>${lockIcon}${completeIcon}Уровень ${idx + 1}</option>`
+      `<option value="${idx}" ${idx === currentLevelIndex ? 'selected' : ''} ${isLocked ? 'disabled' : ''}>${lockIcon}${completeIcon}${getLevelName(idx)}</option>`
     );
   }).join('');
 }
@@ -223,7 +235,7 @@ function renderBoard() {
     }
   }
 
-  levelTitle.textContent = `Уровень ${currentLevelIndex + 1}`;
+  levelTitle.textContent = getLevelName(currentLevelIndex);
   levelProgress.textContent = `${currentLevelIndex + 1} / ${levels.length}`;
   levelHint.textContent = 'Цель: поставь все объекты на отмеченные клетки.';
   levelRule.textContent = `Минимальная программа: ${level.minCommands} команд.`;
