@@ -227,7 +227,7 @@ function renderBoard() {
       if (currentPosition[0] === row && currentPosition[1] === col) {
         const hero = document.createElement('div');
         hero.className = 'hero';
-        hero.style.transform = `rotate(${directionRotation[currentDirection]}deg)`;
+        hero.style.transform = `rotate(${directionRotation[currentDirection]}deg) scale(1.3)`;
         cell.appendChild(hero);
       }
 
